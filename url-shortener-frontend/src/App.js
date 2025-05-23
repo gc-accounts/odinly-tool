@@ -46,8 +46,8 @@ function App() {
     setShortUrl('');
 
     try {
-      const res = await axios.post('http://localhost:5000/shorten', { full: fullUrl });
-      setShortUrl(`http://localhost:5000/${res.data.short}`);
+      const res = await axios.post('https://odinly-tool.vercel.app/shorten', { full: fullUrl });
+      setShortUrl(`https://odinly-tool.vercel.app/${res.data.short}`);
     } catch (error) {
       console.error("Error shortening URL:", error);
     }

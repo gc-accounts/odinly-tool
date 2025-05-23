@@ -1,19 +1,24 @@
 const express = require('express');
-const app = express(); // ✅ Make sure this is here
+const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const shortid = require('shortid');
 require('dotenv').config();
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/urlshortener', {
+mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// Middleware
+// CORS configuration for frontend and localhost
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://odinly-tool.vercel.app'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
-app.use(cors());
 
 // URL model
 const Url = mongoose.model('Url', new mongoose.Schema({
@@ -37,5 +42,5 @@ app.get('/:short', async (req, res) => {
   res.redirect(url.full);
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+// Vercel expects you to export the handler (no need for app.listen)
+module.exports = app;
