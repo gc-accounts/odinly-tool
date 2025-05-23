@@ -13,7 +13,10 @@ mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mon
 
 // CORS configuration for frontend and localhost
 app.use(cors({
-  origin: ['https://odinly-tool-t3m2.vercel.app/'],
+  origin: [
+    'http://localhost:3000',
+    'https://odinly-tool-t3m2.vercel.app' // your frontend domain
+  ],
   methods: ['GET', 'POST'],
   credentials: true
 }));
