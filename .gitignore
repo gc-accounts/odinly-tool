@@ -1,0 +1,7 @@
+# Node modules
+/url-shortener-frontend/node_modules/
+/url-shortener-backend/node_modules/
+
+# Environment files
+/url-shortener-frontend/.env
+/url-shortener-backend/.env

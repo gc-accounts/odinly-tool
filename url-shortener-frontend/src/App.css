@@ -1,0 +1,183 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #001d3d;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Main */
+.bitly-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.headline {
+  font-size: 2.2rem;
+  max-width: 800px;
+  margin-bottom: 1rem;
+}
+
+.description {
+  font-size: 1rem;
+  max-width: 600px;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+/* Form Box */
+.shortener-form-box {
+  background-color: white;
+  color: #001d3d;
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.form-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.active-tab,
+.inactive-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.active-tab {
+  background-color: #001d3d;
+  color: white;
+}
+
+.inactive-tab {
+  background-color: #eee;
+  color: #333;
+}
+
+.short-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.form-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.form-sub {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.short-form input {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: auto;
+}
+
+.shorten-btn {
+  background-color: #006eff;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.shorten-btn:hover {
+  background-color: #0055cc;
+}
+
+/* Result */
+.short-result {
+  margin-top: 1rem;
+  text-align: left;
+  word-break: break-word;
+}
+
+.short-result a {
+  color: #006eff;
+  font-weight: bold;
+}
+
+
+
+.short-url-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+    background-color: #001d3d;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.copy-btn:hover {
+  background-color: #4338ca;
+}
+
+.copy-icon {
+  font-size: 16px;
+}
+
+form div{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label{
+  font-size: 12px;
+}
+
+
+.full-url-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.full-url-box textarea {
+  flex: 1;
+  resize: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  width: 95%;
+  min-height: 60px;
+}
