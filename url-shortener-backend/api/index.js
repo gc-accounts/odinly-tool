@@ -1,9 +1,8 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const shortid = require('shortid');
-require('dotenv').config();
+const app = express();
 
 // MongoDB connection
 mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
@@ -11,11 +10,11 @@ mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mon
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// CORS configuration for frontend and localhost
+// CORS configuration
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://odinly-tool-t3m2.vercel.app' // your frontend domain
+    'https://odinly-tool-t3m2.vercel.app'
   ],
   methods: ['GET', 'POST'],
   credentials: true
@@ -31,19 +30,26 @@ const Url = mongoose.model('Url', new mongoose.Schema({
 
 // Create short URL
 app.post('/shorten', async (req, res) => {
-  const { full } = req.body;
-  const short = shortid.generate();
-  const url = new Url({ full, short });
-  await url.save();
-  res.json({ short });
+  try {
+    const { full } = req.body;
+    const short = shortid.generate();
+    const url = new Url({ full, short });
+    await url.save();
+    res.json({ short });
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
 });
 
 // Redirect route
 app.get('/:short', async (req, res) => {
-  const url = await Url.findOne({ short: req.params.short });
-  if (!url) return res.sendStatus(404);
-  res.redirect(url.full);
+  try {
+    const url = await Url.findOne({ short: req.params.short });
+    if (!url) return res.sendStatus(404);
+    res.redirect(url.full);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
 });
 
-// Vercel expects you to export the handler (no need for app.listen)
 module.exports = app;
