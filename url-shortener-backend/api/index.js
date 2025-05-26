@@ -4,37 +4,45 @@ const cors = require('cors');
 const shortid = require('shortid');
 const app = express();
 
-// MongoDB connection
+// ✅ MongoDB connection
 mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'));
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // ✅ CORS configuration
-const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://link.odinschool.com/'  // 🚫 do not modify as per your instruction
-  ],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
-  credentials: true
-};
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://link.odinschool.com'  // 🚫 do not modify as per your instruction
+];
 
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
 
-// ✅ Handle preflight OPTIONS requests
-app.options('*', cors(corsOptions));
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200); // ✅ Handles preflight
+  }
+
+  next();
+});
 
 app.use(express.json());
 
-// URL model
+// ✅ URL Model
 const Url = mongoose.model('Url', new mongoose.Schema({
   full: String,
   short: String
 }));
 
-// Create short URL
+// ✅ Create short URL
 app.post('/shorten', async (req, res) => {
   try {
     const { full } = req.body;
@@ -47,7 +55,7 @@ app.post('/shorten', async (req, res) => {
   }
 });
 
-// Redirect route
+// ✅ Redirect route
 app.get('/:short', async (req, res) => {
   try {
     const url = await Url.findOne({ short: req.params.short });
