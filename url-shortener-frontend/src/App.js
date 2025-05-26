@@ -39,16 +39,18 @@ function App() {
   useEffect(() => {
     if (form.websiteUrl) {
       const params = new URLSearchParams();
-      const effectiveSource = form.utmSource.trim() || form.source;
 
-      if (effectiveSource) params.set('utm_source', effectiveSource);
+      // ✅ Add all fields only if not empty
+      if (form.source) params.set('utm_source', form.source);
+      if (form.utmSource.trim()) params.set('utm_custom_source', form.utmSource.trim());
       if (form.medium) params.set('utm_medium', form.medium);
       if (form.campaignName) params.set('utm_campaign', form.campaignName);
       if (form.campaignId) params.set('utm_id', form.campaignId);
       if (form.term) params.set('utm_term', form.term);
       if (form.content) params.set('utm_content', form.content);
 
-      setFullUrl(`${form.websiteUrl}?${params.toString()}`);
+      const separator = form.websiteUrl.includes('?') ? '&' : '?';
+      setFullUrl(`${form.websiteUrl}${separator}${params.toString()}`);
     } else {
       setFullUrl('');
     }
