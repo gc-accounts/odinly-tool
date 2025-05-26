@@ -5,27 +5,20 @@ const shortid = require('shortid');
 const app = express();
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// CORS middleware
+// CORS configuration
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://link.odinschool.com',
-    'https://www.link.odinschool.com',
-    'https://0din.link',
-    'https://www.0din.link'
+    'https://link.odinschool.com/'
   ],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type'],
+  methods: ['GET', 'POST'],
   credentials: true
 }));
-
-// Handle preflight
-app.options('*', cors());
 
 app.use(express.json());
 
@@ -35,6 +28,7 @@ const Url = mongoose.model('Url', new mongoose.Schema({
   short: String
 }));
 
+// Create short URL
 app.post('/shorten', async (req, res) => {
   try {
     const { full } = req.body;
@@ -47,6 +41,7 @@ app.post('/shorten', async (req, res) => {
   }
 });
 
+// Redirect route
 app.get('/:short', async (req, res) => {
   try {
     const url = await Url.findOne({ short: req.params.short });

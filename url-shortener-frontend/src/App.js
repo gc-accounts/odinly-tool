@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdContentCopy } from 'react-icons/md';
 import './App.css';
@@ -46,8 +46,11 @@ function App() {
     setShortUrl('');
 
     try {
-      const res = await axios.post('https://0din.link/shorten', { full: fullUrl });
-      setShortUrl(`https://0din.link/${res.data.short}`);
+      // const res = await axios.post('https://0din.link/shorten', { full: fullUrl });
+      // setShortUrl(`https://0din.link/${res.data.short}`);
+      const res = await axios.post('https://www.0din.link/shorten', { full: fullUrl });
+      setShortUrl(`https://www.0din.link/${res.data.short}`);
+
     } catch (error) {
       console.error("Error shortening URL:", error);
     }
