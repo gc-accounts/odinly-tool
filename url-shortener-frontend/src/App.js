@@ -48,8 +48,8 @@ function App() {
     try {
       // const res = await axios.post('https://0din.link/shorten', { full: fullUrl });
       // setShortUrl(`https://0din.link/${res.data.short}`);
-      const res = await axios.post('https://www.0din.link/shorten', { full: fullUrl });
-      setShortUrl(`https://www.0din.link/${res.data.short}`);
+      const res = await axios.post('https://odinly-tool-greycampus-projects.vercel.app/shorten', { full: fullUrl });
+      setShortUrl(`https://odinly-tool-greycampus-projects.vercel.app/${res.data.short}`);
 
     } catch (error) {
       console.error("Error shortening URL:", error);
