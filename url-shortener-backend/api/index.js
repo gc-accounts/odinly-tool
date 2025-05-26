@@ -10,24 +10,22 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://technology:mLtQuWzm1U
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// ✅ Secure CORS configuration
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://link.odinschool.com',
-  'https://www.link.odinschool.com' // in case Vercel redirects
-];
-
+// CORS middleware
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('CORS not allowed'));
-    }
-  },
-  methods: ['GET', 'POST'],
+  origin: [
+    'http://localhost:3000',
+    'https://link.odinschool.com',
+    'https://www.link.odinschool.com',
+    'https://0din.link',
+    'https://www.0din.link'
+  ],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
   credentials: true
 }));
+
+// Handle preflight
+app.options('*', cors());
 
 app.use(express.json());
 
@@ -37,7 +35,6 @@ const Url = mongoose.model('Url', new mongoose.Schema({
   short: String
 }));
 
-// Shorten route
 app.post('/shorten', async (req, res) => {
   try {
     const { full } = req.body;
@@ -50,7 +47,6 @@ app.post('/shorten', async (req, res) => {
   }
 });
 
-// Redirect route
 app.get('/:short', async (req, res) => {
   try {
     const url = await Url.findOne({ short: req.params.short });
