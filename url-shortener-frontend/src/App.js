@@ -68,7 +68,7 @@ function App() {
       <div className="shortener-form-box">
         <form className="short-form" onSubmit={handleSubmit}>
           <div>
-            <label>Website URL *</label>
+            <label>Website URL</label>
             <input name="websiteUrl" value={form.websiteUrl} onChange={handleInputChange} required placeholder="https://www.example.com" />
           </div>
           <div>
@@ -76,15 +76,15 @@ function App() {
             <input name="campaignId" value={form.campaignId} onChange={handleInputChange} placeholder="12345" />
           </div>
           <div>
-            <label>Campaign Source *</label>
+            <label>Campaign Source</label>
             <input name="source" value={form.source} onChange={handleInputChange} required placeholder="google, newsletter..." />
           </div>
           <div>
-            <label>Campaign Medium *</label>
+            <label>Campaign Medium</label>
             <input name="medium" value={form.medium} onChange={handleInputChange} required placeholder="cpc, banner, email..." />
           </div>
           <div>
-            <label>Campaign Name *</label>
+            <label>Campaign Name</label>
             <input name="campaignName" value={form.campaignName} onChange={handleInputChange} required placeholder="Promo name" />
           </div>
           <div>
