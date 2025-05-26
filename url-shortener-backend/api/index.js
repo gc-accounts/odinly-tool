@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mon
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://odinly-tool-t3m2.vercel.app'
+    'https://link.odinschool.com/'
   ],
   methods: ['GET', 'POST'],
   credentials: true
