@@ -5,17 +5,26 @@ const shortid = require('shortid');
 const app = express();
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// CORS configuration
-app.use(cors({
- origin: [
+// ✅ Secure CORS configuration
+const allowedOrigins = [
   'http://localhost:3000',
-  'https://link.odinschool.com'
-],
+  'https://link.odinschool.com',
+  'https://www.link.odinschool.com' // in case Vercel redirects
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'));
+    }
+  },
   methods: ['GET', 'POST'],
   credentials: true
 }));
@@ -28,7 +37,7 @@ const Url = mongoose.model('Url', new mongoose.Schema({
   short: String
 }));
 
-// Create short URL
+// Shorten route
 app.post('/shorten', async (req, res) => {
   try {
     const { full } = req.body;
