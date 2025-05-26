@@ -3,11 +3,26 @@ import axios from 'axios';
 import { MdContentCopy } from 'react-icons/md';
 import './App.css';
 
+// ✅ Toast component
+function Toast({ message, onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 3000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className="toast">
+      {message}
+    </div>
+  );
+}
+
 function App() {
   const [form, setForm] = useState({
     websiteUrl: '',
     campaignId: '',
     source: '',
+    utmSource: '',
     medium: '',
     campaignName: '',
     term: '',
@@ -19,11 +34,14 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [copiedFull, setCopiedFull] = useState(false);
   const [copiedShort, setCopiedShort] = useState(false);
+  const [toastMsg, setToastMsg] = useState('');
 
   useEffect(() => {
     if (form.websiteUrl) {
       const params = new URLSearchParams();
-      if (form.source) params.set('utm_source', form.source);
+      const effectiveSource = form.utmSource.trim() || form.source;
+
+      if (effectiveSource) params.set('utm_source', effectiveSource);
       if (form.medium) params.set('utm_medium', form.medium);
       if (form.campaignName) params.set('utm_campaign', form.campaignName);
       if (form.campaignId) params.set('utm_id', form.campaignId);
@@ -46,13 +64,11 @@ function App() {
     setShortUrl('');
 
     try {
-      // const res = await axios.post('https://0din.link/shorten', { full: fullUrl });
-      // setShortUrl(`https://0din.link/${res.data.short}`);
       const res = await axios.post('https://www.0din.link/shorten', { full: fullUrl });
       setShortUrl(`https://www.0din.link/${res.data.short}`);
-
     } catch (error) {
       console.error("Error shortening URL:", error);
+      setToastMsg('Failed to shorten URL. Please try again.');
     }
 
     setLoading(false);
@@ -65,32 +81,62 @@ function App() {
         Use our URL shortener, QR Codes, and landing pages to engage your audience and connect them to the right information.
       </p>
 
+      {toastMsg && <Toast message={toastMsg} onClose={() => setToastMsg('')} />}
+
       <div className="shortener-form-box">
         <form className="short-form" onSubmit={handleSubmit}>
           <div>
-            <label>Website URL</label>
+            <label>Website URL *</label>
             <input name="websiteUrl" value={form.websiteUrl} onChange={handleInputChange} required placeholder="https://www.example.com" />
           </div>
+
           <div>
-            <label>Campaign ID</label>
-            <input name="campaignId" value={form.campaignId} onChange={handleInputChange} placeholder="12345" />
+            <label>Campaign ID *</label>
+            <input name="campaignId" value={form.campaignId} onChange={handleInputChange} required placeholder="12345" />
           </div>
+
           <div>
-            <label>Campaign Source</label>
-            <input name="source" value={form.source} onChange={handleInputChange} required placeholder="google, newsletter..." />
+            <label>Source *</label>
+            <select
+              name="source"
+              value={form.source}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled>Select a source</option>
+              <option value="Email Marketing">Email Marketing</option>
+              <option value="Paid Search">Paid Search</option>
+              <option value="Organic Social">Organic Social</option>
+              <option value="Paid Social">Paid Social</option>
+              <option value="Other Campaigns">Other Campaigns</option>
+            </select>
           </div>
+
           <div>
-            <label>Campaign Medium</label>
+            <label>UTM Source</label>
+            <input
+              name="utmSource"
+              value={form.utmSource}
+              onChange={handleInputChange}
+              placeholder="Enter custom UTM source"
+            />
+          </div>
+
+          <div>
+            <label>Campaign Medium *</label>
             <input name="medium" value={form.medium} onChange={handleInputChange} required placeholder="cpc, banner, email..." />
           </div>
+
           <div>
-            <label>Campaign Name</label>
+            <label>Campaign Name *</label>
             <input name="campaignName" value={form.campaignName} onChange={handleInputChange} required placeholder="Promo name" />
           </div>
+
           <div>
             <label>Campaign Term</label>
             <input name="term" value={form.term} onChange={handleInputChange} placeholder="Paid keyword" />
           </div>
+
           <div>
             <label>Campaign Content</label>
             <input name="content" value={form.content} onChange={handleInputChange} placeholder="Ad content info" />
