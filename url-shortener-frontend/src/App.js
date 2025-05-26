@@ -46,8 +46,8 @@ function App() {
     setShortUrl('');
 
     try {
-      const res = await axios.post('http://0din.link/shorten', { full: fullUrl });
-      setShortUrl(`http://0din.link/${res.data.short}`);
+      const res = await axios.post('https://0din.link/shorten', { full: fullUrl });
+      setShortUrl(`https://0din.link/${res.data.short}`);
     } catch (error) {
       console.error("Error shortening URL:", error);
     }

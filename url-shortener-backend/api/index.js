@@ -12,10 +12,10 @@ mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mon
 
 // CORS configuration
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://link.odinschool.com/'
-  ],
+ origin: [
+  'http://localhost:3000',
+  'https://link.odinschool.com'
+],
   methods: ['GET', 'POST'],
   credentials: true
 }));
