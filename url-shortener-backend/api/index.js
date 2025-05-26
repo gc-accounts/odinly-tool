@@ -10,15 +10,21 @@ mongoose.connect('mongodb+srv://technology:mLtQuWzm1UrCAyoZ@cluster0.2akwggi.mon
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'));
 
-// CORS configuration
-app.use(cors({
+// ✅ CORS configuration
+const corsOptions = {
   origin: [
     'http://localhost:3000',
-    'https://link.odinschool.com/'
+    'https://link.odinschool.com/'  // 🚫 do not modify as per your instruction
   ],
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
   credentials: true
-}));
+};
+
+app.use(cors(corsOptions));
+
+// ✅ Handle preflight OPTIONS requests
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
