@@ -45,7 +45,13 @@ const Url = mongoose.model('Url', new mongoose.Schema({
 // ✅ Create short URL
 app.post('/shorten', async (req, res) => {
   try {
-    const { full } = req.body;
+    let { full } = req.body;
+
+    // Ensure the URL has a protocol
+    if (!/^https?:\/\//i.test(full)) {
+      full = 'https://' + full;
+    }
+
     const short = shortid.generate();
     const url = new Url({ full, short });
     await url.save();
@@ -54,6 +60,7 @@ app.post('/shorten', async (req, res) => {
     res.status(500).json({ message: 'Server Error', error: err.message });
   }
 });
+
 
 // ✅ Redirect route
 app.get('/:short', async (req, res) => {
