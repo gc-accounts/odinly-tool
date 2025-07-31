@@ -88,22 +88,27 @@ function App() {
       <div className="shortener-form-box">
         <form className="short-form" onSubmit={handleSubmit}>
           <div>
-            <label>Website URL *</label>
-            <input name="websiteUrl" value={form.websiteUrl} onChange={handleInputChange} required placeholder="https://www.example.com" />
+            <label>Website URL</label>
+            <input name="websiteUrl" value={form.websiteUrl} onChange={handleInputChange}  placeholder="https://www.example.com" />
           </div>
 
           <div>
-            <label>Campaign ID *</label>
-            <input name="campaignId" value={form.campaignId} onChange={handleInputChange} required placeholder="12345" />
+            <label>Campaign ID</label>
+            <input name="campaignId" value={form.campaignId} onChange={handleInputChange} placeholder="12345" />
+          </div>
+
+            <div>
+            <label>Source (Original Traffic Source)</label>
+            <input name="source" value={form.source} onChange={handleInputChange} placeholder="youtube, instgram, facebook" />
           </div>
 
           <div>
-            <label>Source *</label>
+            <label>Campaign Medium (Original Traffic Source Drill Down 1)</label>
             <select
-              name="source"
-              value={form.source}
+              name="medium"
+              value={form.medium}
               onChange={handleInputChange}
-              required
+              
             >
               <option value="" disabled>Select a source</option>
               <option value="Email Marketing">Email Marketing</option>
@@ -114,33 +119,23 @@ function App() {
             </select>
           </div>
 
+          {/* <div>
+            <label>Campaign Medium </label>
+            <input name="medium" value={form.medium} onChange={handleInputChange}  placeholder="cpc, banner, email..." />
+          </div> */}
+
           <div>
-            <label>UTM Source</label>
-            <input
-              name="utmSource"
-              value={form.utmSource}
-              onChange={handleInputChange}
-              placeholder="Enter custom UTM source"
-            />
+            <label>Campaign Name (Original Traffic Source Drill Down 2)</label>
+            <input name="campaignName" value={form.campaignName} onChange={handleInputChange}  placeholder="Promo name" />
           </div>
 
           <div>
-            <label>Campaign Medium *</label>
-            <input name="medium" value={form.medium} onChange={handleInputChange} required placeholder="cpc, banner, email..." />
-          </div>
-
-          <div>
-            <label>Campaign Name *</label>
-            <input name="campaignName" value={form.campaignName} onChange={handleInputChange} required placeholder="Promo name" />
-          </div>
-
-          <div>
-            <label>Campaign Term</label>
+            <label>Campaign Term (UTM Term-First Page Seen)</label>
             <input name="term" value={form.term} onChange={handleInputChange} placeholder="Paid keyword" />
           </div>
 
           <div>
-            <label>Campaign Content</label>
+            <label>Campaign Content (UTM Content-First Page Seen)</label>
             <input name="content" value={form.content} onChange={handleInputChange} placeholder="Ad content info" />
           </div>
 
